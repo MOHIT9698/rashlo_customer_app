@@ -8,6 +8,9 @@ export default function Index() {
       <Link  href={"/auth/register"}>
           <Text>Go To register</Text>
       </Link>
+      <Link  href={"/auth/login"}>
+          <Text>Go To Login</Text>
+      </Link>
     </View>
   );
 }

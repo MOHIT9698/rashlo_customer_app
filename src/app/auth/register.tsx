@@ -6,7 +6,9 @@ import { Colors, typography } from "../../../constants/theme";
 const RegisterCustomerScreen = () => {
     return (
         <View style={{ paddingInline: 14, height: "100%", backgroundColor: "white" }}>
-            <BackButton/>
+            <View style={{ marginBlock: 10 }} >
+                <BackButton link="/auth/login" />
+            </View>
             <Text style={styles.title}>Create Your Account</Text>
             <Text style={styles.subtitle}>Enter your mobile number and name</Text>
             <Text style={styles.subtitle}>to get started</Text>
@@ -23,7 +25,6 @@ const RegisterCustomerScreen = () => {
                     keyboardShouldPersistTaps="handled"
                 >
                     <RegisterCustomerForm />
-                </ScrollView>
 
                 <View style={styles.endBox}>
                     <Text style={styles.endtext}>
@@ -33,6 +34,7 @@ const RegisterCustomerScreen = () => {
                         Terms & Conditions & Privacy Policy
                     </Text>
                 </View>
+                </ScrollView>
 
             </KeyboardAvoidingView>
         </View>
@@ -47,7 +49,8 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontFamily: typography.bold,
         color: Colors.textPrimary,
-        marginBottom: 8
+        marginBottom: 8,
+        marginTop:0
     },
     subtitle: {
         fontSize: 20,
@@ -55,9 +58,10 @@ const styles = StyleSheet.create({
         color: Colors.textSecondary
     },
     endBox: {
-        width: "100%",
-        position: "absolute",
-        bottom: 50,
+        // width: "100%",
+        // position: "absolute",
+        // bottom: 30,
+        
     },
     endtext: {
         fontSize: 16,

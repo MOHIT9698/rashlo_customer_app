@@ -1,13 +1,18 @@
-import { Text, View } from 'react-native'
+import { Link, RelativePathString } from 'expo-router'
+import { View } from 'react-native'
 import { BackIcon } from '../../constants/Icons'
 
-const BackButton = () => {
-    return (
-        <View>
-            <Text>jkjkj</Text>
-            <BackIcon />
+interface ButtonProps {
+    link: RelativePathString | any
+}
 
-        </View>
+const BackButton = ({ link }: ButtonProps) => {
+    return (
+        <Link  href={link} >
+            <View >
+                <BackIcon size={20} />
+            </View>
+        </Link>
     )
 }
 

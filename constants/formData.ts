@@ -1,4 +1,5 @@
 import z from "zod";
-import { registerCustomerSchema } from "./schema";
+import { loginCustomerSchema, registerCustomerSchema } from "./schema";
 
 export type RegisterCustomerFormData = z.infer<typeof registerCustomerSchema>;
+export type LoginCustomerFormData = z.infer<typeof loginCustomerSchema>;

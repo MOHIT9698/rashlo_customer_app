@@ -1,39 +1,26 @@
-// import RegisterPasswordInput from "@/components/common-components/form/register/RegisterPasswordInput";
-// import RegisterTextInput from "@/components/common-components/form/register/RegisterTextInput";
-// import PrimaryButton from "@/components/ui/buttons/PrimaryButton";
-// import { RegisterTruckFormData } from "@/constants/formData";
-// import { registerTruckSchema } from "@/constants/schema";
-// import { createTruck, resendOtpVerification, VerifyRegistration } from "@/utils/executors/auth";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { useRouter } from "expo-router";
-// import { useState } from "react";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { View } from "react-native";
-import { RegisterCustomerFormData } from "../../constants/formData";
-import { registerCustomerSchema } from "../../constants/schema";
+import { StyleSheet, Text, View } from "react-native";
+import { LoginCustomerFormData } from "../../constants/formData";
+import { loginCustomerSchema } from "../../constants/schema";
+import { Colors, typography } from "../../constants/theme";
 import InputField from "../common_ui/InputField";
 import PasswordInput from "../common_ui/PasswordInput";
 import PrimaryButton from "../common_ui/PrimaryButton";
-// import { Platform, View } from "react-native";
-// import Toast from "react-native-toast-message";
-// import OtpVerification from "./OtpVerification";
-// import { useTranslation } from "react-i18next";
 
 
 
-const RegisterCustomerForm = () => {
+const LoginCustomerForm = () => {
     const {
         control,
         handleSubmit,
         formState: { errors },
-    } = useForm<RegisterCustomerFormData>({
-        resolver: zodResolver(registerCustomerSchema),
+    } = useForm<LoginCustomerFormData>({
+        resolver: zodResolver(loginCustomerSchema),
         defaultValues: {
-            first_name: "",
-            last_name: "",
             mobile_number: "",
         },
     });
@@ -41,16 +28,16 @@ const RegisterCustomerForm = () => {
     const [loading, setLoading] = useState(false);
 
 
-    const onSubmit = async (data: RegisterCustomerFormData) => {
+    const onSubmit = async (data: LoginCustomerFormData) => {
         setLoading(true);
 
         console.log("my form data", data)
-        router.push({
-            pathname: "/auth/verify_otp",
-            params: {
-                mobile_number: data?.mobile_number
-            }
-        });
+        // router.push({
+        //     pathname: "/auth/verify_otp",
+        //     params: {
+        //         mobile_number: data?.mobile_number
+        //     }
+        // });
 
         try {
 
@@ -132,20 +119,28 @@ const RegisterCustomerForm = () => {
     // }
     return (
         <>
-            <View style={{ marginTop: 30 }}>
+            <View style={{ marginTop: 50 }}>
                 <InputField control={control} error={errors.mobile_number} keyboardType="phone-pad" autoComplete="tel" iconName="call-outline" label={"Mobile Number"} name="mobile_number" placeholder={"Enter mobile number"} />
-                <InputField control={control} error={errors.first_name} autoCapitalize="words" autoComplete="name" iconName="person-outline" label={"First Name"} name="first_name" placeholder={"Enter First name"} />
-                <InputField control={control} error={errors.last_name} autoCapitalize="words" autoComplete="name" iconName="person-outline" label={"Last Name"} name="last_name" placeholder={"Enter Last name"} />
                 <PasswordInput control={control} name="password" label={"Password"} placeholder={"Enter password"} error={errors.password} />
-                <PasswordInput control={control} name="confirm_password" label={"Confirm Password"} placeholder={"Enter confirm password"} error={errors.confirm_password} />
-
-                <PrimaryButton text={"Get Started"} isLoading={loading} onPress={handleSubmit(onSubmit)} />
+                <Link href={"/auth/forgot_password"}>
+                    <Text style={styles.endtextLink}>Forgot Password?</Text>
+                </Link>
+                <PrimaryButton  text={"Login"} isLoading={loading} onPress={handleSubmit(onSubmit)} />
             </View>
-            {/* <OtpVerification getOtp={verifyOtp} loading={otpLoading} resendOtp={resendOtp} setShowOtpModal={setShowOtpModal} showOtpModal={showOtpModal} /> */}
 
         </>
     )
 };
 
-export default RegisterCustomerForm;
+export default LoginCustomerForm;
 
+
+
+const styles = StyleSheet.create({
+    endtextLink: {
+        fontSize: 18,
+        fontFamily: typography.semibold,
+        color: Colors.primary,
+        textAlign: "right",
+    },
+})

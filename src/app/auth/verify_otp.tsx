@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import OTPTextInput from 'react-native-otp-textinput';
@@ -39,6 +39,7 @@ const verify_otp = () => {
     };
 
     const onSubmit = () => {
+        router.push("/auth/login");
         console.log("otp", otp);
     }
 
