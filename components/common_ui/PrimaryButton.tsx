@@ -3,16 +3,17 @@ import { Colors } from "../../constants/theme";
 
 interface ButtonProp {
     isLoading: boolean;
+    disabled?: boolean;
     text: string;
     onPress: (data: any) => void;
 }
 
-const PrimaryButton = ({ isLoading, onPress, text = "Button" }: ButtonProp) => {
+const PrimaryButton = ({ isLoading, onPress, text = "Button", disabled=false }: ButtonProp) => {
     return (
         <TouchableOpacity
-            style={[styles.createButton, isLoading && styles.createButtonDisabled]}
+            style={[styles.createButton, (isLoading || disabled) && styles.createButtonDisabled]}
             onPress={onPress}
-            disabled={isLoading}
+            disabled={isLoading || disabled}
             activeOpacity={0.8}
         >
             {isLoading ? (

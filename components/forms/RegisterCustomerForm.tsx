@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { useRouter } from "expo-router";
 // import { useState } from "react";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { View } from "react-native";
@@ -35,18 +36,24 @@ const RegisterCustomerForm = () => {
             mobile_number: "",
         },
     });
-    //   const router = useRouter();
-    //   const [showOtpModal, setShowOtpModal] = useState(false);
-      const [loading, setLoading] = useState(false);
-    //   const [otpLoading, setOtpLoading] = useState(false);
-    //   const [truckId, setTruckId] = useState<string | null>(null);
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
 
     const onSubmit = async (data: RegisterCustomerFormData) => {
         setLoading(true);
+
+        console.log("my form data", data)
+        router.push({
+            pathname: "/auth/verify_otp",
+            params: {
+                mobile_number: data?.mobile_number
+            }
+        });
+
         try {
 
-           
+
         } catch (err: any) {
 
             // Toast.show({
@@ -124,7 +131,7 @@ const RegisterCustomerForm = () => {
     // }
     return (
         <>
-            <View style={{marginTop:50}}>
+            <View style={{ marginTop: 50 }}>
                 <InputField control={control} error={errors.mobile_number} keyboardType="phone-pad" autoComplete="tel" iconName="call-outline" label={"Mobile Number"} name="mobile_number" placeholder={"Enter mobile number"} />
                 <InputField control={control} error={errors.first_name} autoCapitalize="words" autoComplete="name" iconName="person-outline" label={"First Name"} name="first_name" placeholder={"Enter First name"} />
                 <InputField control={control} error={errors.last_name} autoCapitalize="words" autoComplete="name" iconName="person-outline" label={"Last Name"} name="last_name" placeholder={"Enter Last name"} />

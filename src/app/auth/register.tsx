@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     endtextLink: {
-        fontSize: 20,
+        fontSize: 18,
         fontFamily: typography.semibold,
         color: Colors.textLink,
         textAlign: "center"
