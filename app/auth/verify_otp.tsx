@@ -2,9 +2,9 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import OTPTextInput from 'react-native-otp-textinput';
-import PrimaryButton from '../../../components/common_ui/PrimaryButton';
-import { MobileOtp } from '../../../constants/Icons';
-import { Colors, typography } from '../../../constants/theme';
+import PrimaryButton from '../../src/components/common_ui/PrimaryButton';
+import { MobileOtp } from '../../src/constants/Icons';
+import { Colors, typography } from '../../src/constants/theme';
 
 
 const verify_otp = () => {

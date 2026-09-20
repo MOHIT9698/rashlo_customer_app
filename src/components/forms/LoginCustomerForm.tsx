@@ -32,6 +32,8 @@ const LoginCustomerForm = () => {
         setLoading(true);
 
         console.log("my form data", data)
+            router.replace("/");
+        
         // router.push({
         //     pathname: "/auth/verify_otp",
         //     params: {

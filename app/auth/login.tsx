@@ -1,8 +1,8 @@
 import { Link } from 'expo-router';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
-import LoginCustomerForm from '../../../components/forms/LoginCustomerForm';
-import { ShopingCartIcon } from '../../../constants/Icons';
-import { Colors, typography } from '../../../constants/theme';
+import LoginCustomerForm from '../../src/components/forms/LoginCustomerForm';
+import { ShopingCartIcon } from '../../src/constants/Icons';
+import { Colors, typography } from '../../src/constants/theme';
 
 
 const LoginCustomerScreen = () => {

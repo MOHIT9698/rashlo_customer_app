@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
-import BackButton from "../../../components/common_ui/BackButton";
-import RegisterCustomerForm from "../../../components/forms/RegisterCustomerForm";
-import { Colors, typography } from "../../../constants/theme";
+import BackButton from "../../src/components/common_ui/BackButton";
+import RegisterCustomerForm from "../../src/components/forms/RegisterCustomerForm";
+import { Colors, typography } from "../../src/constants/theme";
 
 const RegisterCustomerScreen = () => {
     return (
