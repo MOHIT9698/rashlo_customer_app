@@ -3,7 +3,6 @@ import AdvertSection from '@/components/home/AdvertSection';
 import CategoryGrid from '@/components/home/CategoryGrid';
 import GreetingUser from '@/components/home/GreetingUser';
 import TrustedShop from '@/components/home/TrustedShop';
-import { groceryCategories } from '@/constants/categoriesData';
 import { Colors } from '@/constants/theme';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -30,8 +29,6 @@ export default function HomeScreen() {
         <AdvertSection />
 
         <CategoryGrid
-          data={groceryCategories}
-          onCategoryPress={handleCategoryPress}
         />
 
       </SafeAreaView>

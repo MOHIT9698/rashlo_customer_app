@@ -1,23 +1,19 @@
+import { categories, Category } from "@/constants/RashanCategories";
+import { useCart } from "@/context/CartContext";
+import { useRouter } from "expo-router";
 import {
-    Dimensions,
-    FlatList,
-    Image,
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
+  Dimensions,
+  FlatList,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
 } from "react-native";
 
-interface Category {
-  id: string;
-  category: string;
-  image: string;
-}
 
-interface CategoryGridProps {
-  data: Category[];
-  onCategoryPress?: (category: Category) => void;
-}
+
+
 
 const { width } = Dimensions.get("window");
 
@@ -26,10 +22,13 @@ const GAP = 10;
 const ITEM_WIDTH =
   (width - HORIZONTAL_PADDING * 2 - GAP * 3) / 4;
 
-const CategoryGrid = ({
-  data,
-  onCategoryPress,
-}: CategoryGridProps) => {
+const CategoryGrid = () => {
+
+
+  const router = useRouter();
+  const { cart } = useCart();
+  const cartCount = cart.reduce((sum, c) => sum + c.count, 0);
+
   const renderItem = ({ item }: { item: Category }) => {
     return (
       <Pressable
@@ -37,8 +36,7 @@ const CategoryGrid = ({
           styles.categoryItem,
           pressed && styles.pressed,
         ]}
-        onPress={() => onCategoryPress?.(item)}
-      >
+        onPress={() => router.push(`/add-item/${item.id}`)}      >
         <View style={styles.imageContainer}>
           <Image
             source={{ uri: item.image }}
@@ -51,7 +49,7 @@ const CategoryGrid = ({
           style={styles.categoryName}
           numberOfLines={2}
         >
-          {item.category}
+          {item.name}
         </Text>
       </Pressable>
     );
@@ -59,9 +57,10 @@ const CategoryGrid = ({
 
   return (
     <FlatList
-      data={data}
-      renderItem={renderItem}
+      data={categories}
       keyExtractor={(item) => item.id}
+      renderItem={renderItem}
+      // keyExtractor={(item) => item.id}
       numColumns={4}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.list}
@@ -76,10 +75,10 @@ const styles = StyleSheet.create({
   list: {
     paddingHorizontal: HORIZONTAL_PADDING,
     paddingBlock: 15,
-    backgroundColor:"white",
+    backgroundColor: "white",
     borderRadius: 20,
     marginTop: 14,
-    paddingBottom :350
+    paddingBottom: 350
   },
 
   row: {
