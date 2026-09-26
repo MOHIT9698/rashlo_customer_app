@@ -1,6 +1,7 @@
 import AnimatedScreen from '@/components/animated_screen/AnimatedScreen';
 import ItemFormModal, { ItemFormValues } from '@/components/item_form_modal/ItemFormModal';
 import { getCategoryById } from '@/constants/RashanCategories';
+import { Colors } from '@/constants/theme';
 import { CartEntry, useCart } from '@/context/CartContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -15,10 +16,6 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import { useCart, CartEntry } from '../../contexts/CartContext';
-// import { getCategoryById } from '../../data/rashanCategories';
-// import ItemFormModal, { ItemFormValues } from '../../components/ItemFormModal';
-// import AnimatedScreen from '../../components/AnimatedScreen';
 
 export default function CartScreen() {
   const router = useRouter();
@@ -117,7 +114,7 @@ export default function CartScreen() {
             activeOpacity={0.8}
             onPress={() => setAddModalVisible(true)}
           >
-            <Ionicons name="add-circle-outline" size={20} color="#3B7FB0" />
+            <Ionicons name="add-circle-outline" size={20} color={Colors.primary} />
             <Text style={styles.addCustomButtonText}>Add a custom item</Text>
           </TouchableOpacity>
 
@@ -210,11 +207,11 @@ function CartCard({
         <Text style={styles.packLabel}>Packs</Text>
         <View style={styles.stepper}>
           <TouchableOpacity onPress={onDecrement} style={styles.stepperButton}>
-            <Ionicons name="remove" size={16} color="#3B7FB0" />
+            <Ionicons name="remove" size={16} color={Colors.primary} />
           </TouchableOpacity>
           <Text style={styles.stepperValue}>{item.count}</Text>
           <TouchableOpacity onPress={onIncrement} style={styles.stepperButton}>
-            <Ionicons name="add" size={16} color="#3B7FB0" />
+            <Ionicons name="add" size={16} color={Colors.primary} />
           </TouchableOpacity>
         </View>
       </View>
@@ -327,14 +324,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     borderWidth: 1.5,
-    borderColor: '#3B7FB0',
+    borderColor: Colors.primary,
     borderRadius: 14,
     paddingVertical: 13,
     borderStyle: 'dashed',
   },
-  addCustomButtonText: { color: '#3B7FB0', fontSize: 14, fontWeight: '700' },
+  addCustomButtonText: { color: Colors.primary, fontSize: 14, fontWeight: '700' },
   placeOrderButton: {
-    backgroundColor: '#3B7FB0',
+    backgroundColor: Colors.primary,
     borderRadius: 14,
     paddingVertical: 15,
     alignItems: 'center',
@@ -346,7 +343,7 @@ const styles = StyleSheet.create({
   emptyTitle: { fontSize: 17, fontWeight: '700', color: '#1A1A1A', marginBottom: 6 },
   emptySubtitle: { fontSize: 13, color: '#8A8A8A', textAlign: 'center', marginBottom: 20 },
   browseButton: {
-    backgroundColor: '#3B7FB0',
+    backgroundColor: Colors.primary,
     borderRadius: 14,
     paddingHorizontal: 24,
     paddingVertical: 12,

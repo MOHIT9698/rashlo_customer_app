@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { HomeIcon } from '../../src/constants/Icons';
+import { HomeIcon, ShopIcon } from '../../src/constants/Icons';
 import { Colors } from '../../src/constants/theme';
 
 export default function TabsLayout() {
@@ -50,11 +50,11 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="shops"
         options={{
-          title: 'Profile',
+          title: 'Shops',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" size={size} color={color} />
+            <ShopIcon size={size} fill={color} />
           ),
         }}
       />

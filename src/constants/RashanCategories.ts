@@ -311,6 +311,97 @@ export const categories: Category[] = [
             },
         ],
     },
+    {
+        id: "7",
+        name: "Salt",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmbPyw-BHtpL66xVry8wNOAdfVkR_9urOk9FqgwzkTsg&s=10",
+    },
+    {
+        id: "8",
+        name: "Sugar",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaq8QI2oNf-20Wk-VWk40QbwVi_7N2WdAHLuCDE3Eqlw&s=10",
+    },
+    {
+        id: "9",
+        name: "Tea & Coffee",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbMTqZnJrzZGWid2bwK8-IH3n7k0ozh8oD_fwgzg7t0A&s=10",
+    },
+    {
+        id: "10",
+        name: "Biscuits & Cookies",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500",
+    },
+    {
+        id: "11",
+        name: "Milk & Dairy",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500",
+    },
+    {
+        id: "12",
+        name: "Bread",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjyzBn2cFBy-nghpWzbwbP2MKjtBx1h8SmBLy2VbRzKQ&s=10",
+    },
+    {
+        id: "14",
+        name: "Snacks",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500",
+    },
+    {
+        id: "15",
+        name: "Dry Fruits",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=500",
+    },
+    {
+        id: "16",
+        name: "Breakfast",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://images.unsplash.com/photo-1517673400267-0251440c45dc?w=500",
+    },
+    {
+        id: "17",
+        name: "Sauces & Spreads",
+        color: "",
+        items: [],
+        icon: "",
+        image:
+            "https://images.unsplash.com/photo-1472476442910-44a20e9946e8?w=500",
+    },
+
 ];
 
 export function getCategoryById(id: string): Category | undefined {

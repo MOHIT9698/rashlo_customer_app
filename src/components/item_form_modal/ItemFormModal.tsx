@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import {
@@ -214,10 +215,10 @@ const styles = StyleSheet.create({
   quickChipText: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#3B7FB0',
+    color: Colors.primary,
   },
   saveButton: {
-    backgroundColor: '#3B7FB0',
+    backgroundColor: Colors.primary,
     borderRadius: 14,
     paddingVertical: 14,
     alignItems: 'center',

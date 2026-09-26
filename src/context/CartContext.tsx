@@ -7,7 +7,8 @@ export interface CartEntry {
   categoryId: string;
   brand?: string;        // undefined for items with no brand options
   quantity: string;      // e.g. "1kg", "500ml"
-  count: number;         // number of packs of this exact item+brand+quantity
+  count: number;    
+  isCustom?:boolean;     // number of packs of this exact item+brand+quantity
 }
 
 interface CartContextType {
