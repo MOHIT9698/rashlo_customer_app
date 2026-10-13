@@ -85,8 +85,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               style={styles.avatar}
               activeOpacity={0.8}
-              onPress={() => router.push('/')}
-            >
+              onPress={() => router.push('/profile')}            >
               <Text style={styles.avatarText}>{initials}</Text>
             </TouchableOpacity>
           </View>

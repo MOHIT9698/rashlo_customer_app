@@ -89,3 +89,7 @@ export const shops: Shop[] = [
     categoriesServed: ['atta'],
   },
 ];
+
+export function getShopById(id: string): Shop | undefined {
+  return shops.find((s) => s.id === id);
+}

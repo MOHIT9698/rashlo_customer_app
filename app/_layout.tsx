@@ -1,4 +1,5 @@
 import { CartProvider } from "@/context/CartContext";
+import { ProfileProvider } from "@/context/ProfileContext";
 import { ShopProvider } from "@/context/ShopContext";
 import {
   NunitoSans_400Regular,
@@ -29,20 +30,22 @@ export default function RootLayout() {
   }
 
   return (
-    <ShopProvider>
-      <CartProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="auth" />
-          <Stack.Screen name="tabs" />
-          <Stack.Screen
-            name="add-item/[categoryId]"
-            options={{ presentation: 'modal' }}
-          />
-          <Stack.Screen name="order/[id]" />
+    <ProfileProvider>
+      <ShopProvider>
+        <CartProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="auth" />
+            <Stack.Screen name="tabs" />
+            <Stack.Screen
+              name="add-item/[categoryId]"
+              options={{ presentation: 'modal' }}
+            />
+            <Stack.Screen name="order/[id]" />
 
-        </Stack>
-      </CartProvider>
-    </ShopProvider>
+          </Stack>
+        </CartProvider>
+      </ShopProvider>
+    </ProfileProvider>
   )
 
     ;
