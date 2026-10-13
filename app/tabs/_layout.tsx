@@ -1,9 +1,11 @@
+import { useCart } from '@/context/CartContext';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { HomeIcon, ShopIcon } from '../../src/constants/Icons';
 import { Colors } from '../../src/constants/theme';
 
 export default function TabsLayout() {
+  const {cart} = useCart();
   return (
     <Tabs
       screenOptions={{
@@ -47,6 +49,13 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="cart-outline" size={size} color={color} />
           ),
+          // tabBarBadge: 8,
+          tabBarBadge: cart.length > 0 ? cart.length : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: '#E03C31',
+            fontSize: 10,
+            fontWeight: '700',
+          },
         }}
       />
       <Tabs.Screen

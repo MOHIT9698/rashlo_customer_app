@@ -3,6 +3,7 @@ import ShopCard from '@/components/shops/ShopCard';
 import ShopDetailModal from '@/components/shops/ShopDetailModal';
 import { calculateDistanceKm } from '@/constants/distance';
 import { MOCK_USER_LOCATION, Shop, shops } from '@/constants/shops';
+import { Colors } from '@/constants/theme';
 import { useShop } from '@/context/ShopContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
@@ -152,7 +153,7 @@ export default function ShopsScreen() {
               <Ionicons
                 name="map-outline"
                 size={16}
-                color={viewMode === 'map' ? '#FFFFFF' : '#3B7FB0'}
+                color={viewMode === 'map' ? '#FFFFFF' : Colors.primary}
               />
               <Text style={[styles.toggleText, viewMode === 'map' && styles.toggleTextActive]}>
                 Map
@@ -165,7 +166,7 @@ export default function ShopsScreen() {
               <Ionicons
                 name="list-outline"
                 size={16}
-                color={viewMode === 'list' ? '#FFFFFF' : '#3B7FB0'}
+                color={viewMode === 'list' ? '#FFFFFF' : Colors.primary}
               />
               <Text style={[styles.toggleText, viewMode === 'list' && styles.toggleTextActive]}>
                 List
@@ -203,7 +204,7 @@ export default function ShopsScreen() {
                   style={styles.suggestionRow}
                   onPress={() => handleSelectFromSearch(shop)}
                 >
-                  <Ionicons name="storefront-outline" size={16} color="#3B7FB0" />
+                  <Ionicons name="storefront-outline" size={16} color={Colors.primary} />
                   <Text style={styles.suggestionText} numberOfLines={1}>
                     {shop.name}
                   </Text>
@@ -230,7 +231,7 @@ export default function ShopsScreen() {
           <View style={styles.mapWrap}>
             {locationStatus === 'loading' ? (
               <View style={styles.loadingWrap}>
-                <ActivityIndicator size="large" color="#3B7FB0" />
+                <ActivityIndicator size="large" color={Colors.primary} />
               </View>
             ) : (
               <>
@@ -282,7 +283,7 @@ export default function ShopsScreen() {
                 </MapView>
 
                 <TouchableOpacity style={styles.recenterButton} onPress={handleRecenter}>
-                  <Ionicons name="locate" size={20} color="#3B7FB0" />
+                  <Ionicons name="locate" size={20} color={Colors.primary} />
                 </TouchableOpacity>
               </>
             )}
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 18, fontWeight: '700', color: '#1A1A1A' },
   toggleWrap: {
     flexDirection: 'row',
-    backgroundColor: '#E8F1FC',
+    backgroundColor: '#77ad956a',
     borderRadius: 12,
     padding: 3,
     gap: 3,
@@ -351,8 +352,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 9,
   },
-  toggleButtonActive: { backgroundColor: '#3B7FB0' },
-  toggleText: { fontSize: 12, fontWeight: '700', color: '#3B7FB0' },
+  toggleButtonActive: { backgroundColor: Colors.primary },
+  toggleText: { fontSize: 12, fontWeight: '700', color: Colors.primary },
   toggleTextActive: { color: '#FFFFFF' },
 
   searchWrap: {

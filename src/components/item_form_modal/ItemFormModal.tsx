@@ -2,15 +2,15 @@ import { Colors } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import {
-    KeyboardAvoidingView,
-    Modal,
-    Platform,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 
 export interface ItemFormValues {
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   quickChip: {
-    backgroundColor: '#E8F1FC',
+    backgroundColor: '#c4e8c5',
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   saveButtonDisabled: {
-    backgroundColor: '#C4D9E8',
+    backgroundColor: '#c4e8c5',
   },
   saveButtonText: {
     color: '#FFFFFF',

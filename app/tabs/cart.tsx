@@ -166,7 +166,7 @@ function CartCard({
   onDelete: () => void;
 }) {
   const category = getCategoryById(item.categoryId);
-  const icon = category?.icon ?? '🛒';
+  const icon = category?.icon ?? '📦';
 
   return (
     <View style={styles.card}>

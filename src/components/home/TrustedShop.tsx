@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
         padding: 12,
         backgroundColor: "white",
         borderRadius: 10,
-        marginTop:12
+        marginTop:12,
+        marginHorizontal:20
 
     },
     greeting: {

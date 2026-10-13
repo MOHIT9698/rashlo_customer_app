@@ -1,5 +1,6 @@
 import { formatDistance } from '@/constants/distance';
 import { Shop } from '@/constants/shops';
+import { Colors } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import {
   Modal,
@@ -52,7 +53,7 @@ export default function ShopDetailModal({
             <View style={styles.nameRow}>
               <Text style={styles.shopName}>{shop.name}</Text>
               {shop.verified && (
-                <Ionicons name="checkmark-circle" size={18} color="#3B7FB0" />
+                <Ionicons name="checkmark-circle" size={18} color={Colors.primary} />
               )}
             </View>
             <Text style={styles.address}>{shop.address}</Text>
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: '#3B7FB0',
+    backgroundColor:Colors.primary,
     borderRadius: 14,
     paddingVertical: 14,
     marginTop: 22,
