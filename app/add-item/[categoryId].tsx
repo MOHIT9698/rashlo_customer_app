@@ -1,15 +1,16 @@
 import StepProgress from '@/components/stepper_progress/StepperProgress';
-import { CategoryItem, getCategoryById } from '@/constants/RashanCategories';
-import { Colors } from '@/constants/theme';
 import { useCart } from '@/context/CartContext';
+import { CategoryItem, getCategoryById } from '@/home_new_design/Rashancategories';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
+  Image,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -22,7 +23,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 type StepKey = 'type' | 'brand' | 'quantity' | 'confirm';
 
 export default function AddItemFlow() {
-  const { categoryId } = useLocalSearchParams<{ categoryId: string }>();
+  const { categoryId, itemId } = useLocalSearchParams<{ categoryId: string; itemId?: string }>();
   const router = useRouter();
   const { addToCart } = useCart();
 
@@ -32,8 +33,17 @@ export default function AddItemFlow() {
   // is presented as a modal route, navigating away (cancel, swipe-down,
   // hardware back) unmounts it entirely — so there's nothing to manually
   // "reset". Reopening the flow always starts fresh by design.
-  const [step, setStep] = useState<StepKey>('type');
-  const [selectedItem, setSelectedItem] = useState<CategoryItem | null>(null);
+  // If we arrived from search or a popular chip, an item is already chosen,
+  // so skip the item list and start at brand (or quantity for unbranded items).
+  const preselected =
+    category && itemId ? category.items.find((i) => i.id === itemId) ?? null : null;
+  const preselectedHasBrand = !!(preselected?.hasBrandOptions && preselected.commonBrands?.length);
+
+  const [step, setStep] = useState<StepKey>(
+    preselected ? (preselectedHasBrand ? 'brand' : 'quantity') : 'type'
+  );
+  const [selectedItem, setSelectedItem] = useState<CategoryItem | null>(preselected);
+  const [typeSearch, setTypeSearch] = useState('');
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [selectedQuantity, setSelectedQuantity] = useState<string | null>(null);
 
@@ -65,6 +75,16 @@ export default function AddItemFlow() {
       </SafeAreaView>
     );
   }
+
+  const typeQuery = typeSearch.trim().toLowerCase();
+  const filteredItems = typeQuery
+    ? category.items.filter(
+        (i) =>
+          i.name.toLowerCase().includes(typeQuery) ||
+          i.hindiName?.toLowerCase().includes(typeQuery) ||
+          i.commonBrands?.some((b) => b.toLowerCase().includes(typeQuery))
+      )
+    : category.items;
 
   function handleSelectType(item: CategoryItem) {
     setSelectedItem(item);
@@ -107,7 +127,7 @@ export default function AddItemFlow() {
     addToCart({
       itemId: selectedItem.id,
       itemName: selectedItem.name,
-      categoryId: category.id ,
+      categoryId: category.id,
       brand: itemHasBrandStep ? selectedBrand ?? undefined : undefined,
       quantity: selectedQuantity,
     });
@@ -138,25 +158,54 @@ export default function AddItemFlow() {
 
       <StepProgress currentStep={getStepNumber()} totalSteps={totalSteps} />
 
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         {step === 'type' && (
           <Animated.View entering={FadeInRight.duration(200)} exiting={FadeOutLeft.duration(150)}>
             <Text style={styles.stepTitle}>What kind of {category.name.toLowerCase()}?</Text>
             <Text style={styles.stepSubtitle}>Tap one to continue</Text>
 
+            {category.items.length > 6 && (
+              <View style={styles.typeSearchWrap}>
+                <Ionicons name="search" size={16} color="#8A8A8A" />
+                <TextInput
+                  style={styles.typeSearchInput}
+                  placeholder={`Search in ${category.name}`}
+                  placeholderTextColor="#B0B0B0"
+                  value={typeSearch}
+                  onChangeText={setTypeSearch}
+                  autoCorrect={false}
+                />
+                {typeSearch.length > 0 && (
+                  <TouchableOpacity onPress={() => setTypeSearch('')}>
+                    <Ionicons name="close-circle" size={16} color="#B0B0B0" />
+                  </TouchableOpacity>
+                )}
+              </View>
+            )}
+
             {category.items.length === 0 ? (
               <Text style={styles.emptyText}>
                 No items set up in this category yet.
               </Text>
+            ) : filteredItems.length === 0 ? (
+              <Text style={styles.emptyText}>No match for "{typeSearch}" in {category.name}.</Text>
             ) : (
-              category.items.map((item) => (
+              filteredItems.map((item) => (
                 <TouchableOpacity
                   key={item.id}
                   style={styles.optionCard}
                   activeOpacity={0.7}
                   onPress={() => handleSelectType(item)}
                 >
-                  <Text style={styles.optionIcon}>{item.icon}</Text>
+                  {item.image ? (
+                    <Image source={{ uri: item.image }} style={styles.optionImage} />
+                  ) : (
+                    <Text style={styles.optionIcon}>{item.icon}</Text>
+                  )}
                   <View style={{ flex: 1 }}>
                     <Text style={styles.optionTitle}>{item.name}</Text>
                     {item.hindiName && (
@@ -341,6 +390,27 @@ const styles = StyleSheet.create({
   optionIcon: {
     fontSize: 24,
   },
+  optionImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+  },
+  typeSearchWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: '#F6F7F9',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginBottom: 14,
+  },
+  typeSearchInput: {
+    flex: 1,
+    fontSize: 14,
+    color: '#1A1A1A',
+    padding: 0,
+  },
   optionTitle: {
     fontSize: 15,
     fontWeight: '600',
@@ -379,7 +449,7 @@ const styles = StyleSheet.create({
   chipRecommended: {
     backgroundColor: '#E8F1FC',
     borderWidth: 1,
-    borderColor:Colors.primary,
+    borderColor: '#3B7FB0',
   },
   chipText: {
     fontSize: 14,
@@ -388,7 +458,7 @@ const styles = StyleSheet.create({
   },
   chipRecommendedLabel: {
     fontSize: 10,
-    color: Colors.primary,
+    color: '#3B7FB0',
     marginTop: 2,
     fontWeight: '600',
   },
@@ -420,7 +490,7 @@ const styles = StyleSheet.create({
   editLink: {
     fontSize: 13,
     fontWeight: '600',
-    color: Colors.primary,
+    color: '#3B7FB0',
   },
   confirmHint: {
     fontSize: 12,
@@ -438,12 +508,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    backgroundColor: Colors.primary,
+    backgroundColor: '#3B7FB0',
     borderRadius: 14,
     paddingVertical: 14,
     ...Platform.select({
       ios: {
-        shadowColor: Colors.primary,
+        shadowColor: '#3B7FB0',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.25,
         shadowRadius: 8,

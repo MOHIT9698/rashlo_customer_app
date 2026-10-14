@@ -1,3 +1,4 @@
+import { Category } from '@/home_new_design/Rashancategories';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -11,7 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Category } from './rashancategries';
+// import { Category } from './rashancategries';
 
 const { width } = Dimensions.get("window");
 
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   loadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     justifyContent: 'center',
   },

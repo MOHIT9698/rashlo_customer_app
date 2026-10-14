@@ -1,6 +1,7 @@
+import { Category } from '@/home_new_design/Rashancategories';
 import { StyleSheet, Text, View } from 'react-native';
 import CategoryTile from './categoryTile';
-import { Category } from './rashancategries';
+// import { Category } from './rashancategries';
 
 interface CategorySectionProps {
   title: string;

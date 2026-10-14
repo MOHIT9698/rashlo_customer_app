@@ -1,28 +1,30 @@
 import AnimatedScreen from '@/components/animated_screen/AnimatedScreen';
 import TrustedShop from '@/components/home/TrustedShop';
 import CategorySection from '@/components/home_screen/CategorySection';
+// import CategorySection from '@/components/home_screen/CategorySection';
 import PromoBanner from '@/components/home_screen/Promobanner';
-import { categories, Category, categorySections } from '@/components/home_screen/rashancategries';
+// import { getCategoriesBySection } from '@/components/home_screen/rashancategries';
 import { useCart } from '@/context/CartContext';
+import OrderAgainRow from '@/home_new_design/OrderAgainRow';
+import { getInitials, useProfile } from '@/home_new_design/ProfileContext';
+import { categorySections, getCategoriesBySection, getTotalItemCount } from '@/home_new_design/Rashancategories';
+// import { categorySections, getCategoriesBySection, getTotalItemCount } from '@/home_new_design/Rashancategories';
+import RationPlannerCard from '@/home_new_design/RashanPlannerCard';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useMemo, useRef, useState } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { useRef } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import { categories, categorySections, Category } from '../../data/rashanCategories';
+// import { categorySections, getCategoriesBySection, getTotalItemCount } from '../../data/rashanCategories';
 // import { useCart } from '../../contexts/CartContext';
+// import { useProfile, getInitials } from '../../contexts/ProfileContext';
 // import AnimatedScreen from '../../components/AnimatedScreen';
 // import TrustedShopBanner from '../../components/TrustedShopBanner';
 // import CartReminderBanner from '../../components/CartReminderBanner';
-// import PopularItemsRow from '../../components/PopularItemsRow';
 // import PromoBanner from '../../components/PromoBanner';
+// import OrderAgainRow from '../../components/OrderAgainRow';
+// import RationPlannerCard from '../../components/RationPlannerCard';
+// import PopularItemsRow from '../../components/PopularItemsRow';
 // import CategorySection from '../../components/CategorySection';
 
 function getGreeting(): string {
@@ -32,41 +34,19 @@ function getGreeting(): string {
   return 'Good evening';
 }
 
-// Replace with the logged-in user's real name once auth is wired up
-const USER_NAME = 'Rohit';
-
 export default function HomeScreen() {
   const router = useRouter();
   const { cart } = useCart();
-  const [searchQuery, setSearchQuery] = useState('');
+  const { name } = useProfile();
   const scrollRef = useRef<ScrollView>(null);
   const categoriesYRef = useRef(0);
 
   const cartCount = cart.reduce((sum, c) => sum + c.count, 0);
-  const initials = USER_NAME.charAt(0).toUpperCase();
-
-  const filteredCategories = useMemo(() => {
-    if (!searchQuery.trim()) return categories;
-    const q = searchQuery.trim().toLowerCase();
-    return categories.filter((category) => {
-      if (category.name.toLowerCase().includes(q)) return true;
-      return category.items.some(
-        (item) =>
-          item.name.toLowerCase().includes(q) ||
-          item.hindiName?.toLowerCase().includes(q)
-      );
-    });
-  }, [searchQuery]);
-
-  function getSectionCategories(section: string): Category[] {
-    return filteredCategories.filter((c) => c.section === section);
-  }
+  const firstName = name.trim().split(' ')[0];
 
   function handleShopNow() {
     scrollRef.current?.scrollTo({ y: categoriesYRef.current, animated: true });
   }
-
-  const noResultsAtAll = searchQuery.length > 0 && filteredCategories.length === 0;
 
   return (
     <AnimatedScreen>
@@ -78,65 +58,76 @@ export default function HomeScreen() {
         >
           {/* Greeting + avatar */}
           <View style={styles.header}>
-            <View>
-              <Text style={styles.greeting}>{getGreeting()} 👋</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.greeting}>
+                {getGreeting()}
+                {firstName ? `, ${firstName}` : ''} 👋
+              </Text>
               <Text style={styles.headerTitle}>What do you need today?</Text>
             </View>
             <TouchableOpacity
               style={styles.avatar}
               activeOpacity={0.8}
-              onPress={() => router.push('/profile')}            >
-              <Text style={styles.avatarText}>{initials}</Text>
+              onPress={() => router.push('/profile')}
+            >
+              <Text style={styles.avatarText}>{getInitials(name)}</Text>
             </TouchableOpacity>
           </View>
 
-          {/* Trusted shop status */}
+          {/* 1. Trusted shop */}
           <TrustedShop />
 
-          {/* Cart reminder, only when relevant */}
+          {/* Cart reminder, only when there is something in the cart */}
           {/* {cartCount > 0 && <CartReminderBanner count={cartCount} />} */}
 
-          {/* Search */}
-          <View style={styles.searchWrap}>
+          {/* Search — opens the full search screen */}
+          <TouchableOpacity
+            style={styles.searchWrap}
+            activeOpacity={0.8}
+            onPress={() => router.push('/search')}
+          >
             <Ionicons name="search" size={18} color="#8A8A8A" />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search for atta, oil, spices..."
-              placeholderTextColor="#B0B0B0"
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-            />
-            {searchQuery.length > 0 && (
-              <TouchableOpacity onPress={() => setSearchQuery('')}>
-                <Ionicons name="close-circle" size={18} color="#B0B0B0" />
-              </TouchableOpacity>
-            )}
-          </View>
+            <Text style={styles.searchPlaceholder}>
+              Search {getTotalItemCount()}+ items, brands...
+            </Text>
+          </TouchableOpacity>
 
-          {/* Promo banner + popular row hidden while searching, to keep focus on results */}
-          {!searchQuery && (
-            <>
-              <PromoBanner onShopNow={handleShopNow} />
-              {/* <PopularItemsRow /> */}
-            </>
-          )}
+          {/* 2. Promo banner */}
+          <PromoBanner onShopNow={handleShopNow} />
 
-          {/* Grouped category sections */}
+          {/* 3. Order again (returning customers only — hides itself otherwise) */}
+          <OrderAgainRow />
+
+          {/* 4. Monthly ration planner */}
+          <RationPlannerCard />
+
+          {/* Most ordered items */}
+          {/* <PopularItemsRow /> */}
+
+          {/* 5. Categories with photos, grouped under headings */}
           <View onLayout={(e) => (categoriesYRef.current = e.nativeEvent.layout.y)}>
-            {noResultsAtAll ? (
-              <Text style={styles.noResultsText}>
-                No categories match "{searchQuery}"
-              </Text>
-            ) : (
-              categorySections.map((section) => (
-                <CategorySection
-                  key={section}
-                  title={section}
-                  categoriesList={getSectionCategories(section)}
-                />
-              ))
-            )}
+            {categorySections.map((section) => (
+              <CategorySection
+                key={section}
+                title={section}
+                categoriesList={getCategoriesBySection(section)}
+              />
+            ))}
           </View>
+
+          {/* Last-resort path, so nobody is ever stuck */}
+          <TouchableOpacity
+            style={styles.customCta}
+            activeOpacity={0.8}
+            onPress={() => router.push('/search')}
+          >
+            <Ionicons name="help-circle-outline" size={20} color="#3E9142" />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.customCtaTitle}>Can't find what you need?</Text>
+              <Text style={styles.customCtaText}>Search, or add any item yourself.</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color="#C4C4C4" />
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </AnimatedScreen>
@@ -145,7 +136,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#F6F7F9' },
-  scrollContent: { paddingBottom: 24 },
+  scrollContent: { paddingBottom: 28 },
 
   header: {
     flexDirection: 'row',
@@ -165,7 +156,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarText: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
+  avatarText: { color: '#FFFFFF', fontSize: 15, fontWeight: '700' },
 
   searchWrap: {
     flexDirection: 'row',
@@ -176,16 +167,25 @@ const styles = StyleSheet.create({
     marginTop: 16,
     borderRadius: 12,
     paddingHorizontal: 14,
-    paddingVertical: 11,
+    paddingVertical: 13,
     borderWidth: 1,
     borderColor: '#EFEFEF',
   },
-  searchInput: { flex: 1, fontSize: 14, color: '#1A1A1A' },
+  searchPlaceholder: { fontSize: 14, color: '#B0B0B0' },
 
-  noResultsText: {
-    fontSize: 13,
-    color: '#8A8A8A',
-    textAlign: 'center',
-    paddingVertical: 30,
+  customCta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: 14,
+    marginHorizontal: 20,
+    marginTop: 26,
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    borderColor: '#3E9142',
   },
+  customCtaTitle: { fontSize: 13, fontWeight: '700', color: '#1A1A1A' },
+  customCtaText: { fontSize: 11, color: '#8A8A8A', marginTop: 2 },
 });

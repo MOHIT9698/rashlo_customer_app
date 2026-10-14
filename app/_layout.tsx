@@ -1,6 +1,7 @@
 import { CartProvider } from "@/context/CartContext";
-import { ProfileProvider } from "@/context/ProfileContext";
+// import { ProfileProvider } from "@/context/ProfileContext";
 import { ShopProvider } from "@/context/ShopContext";
+import { ProfileProvider } from "@/home_new_design/ProfileContext";
 import {
   NunitoSans_400Regular,
   NunitoSans_500Medium,
@@ -40,6 +41,10 @@ export default function RootLayout() {
               name="add-item/[categoryId]"
               options={{ presentation: 'modal' }}
             />
+            {/* <Stack.Screen
+              name="category/[categoryId]"
+              options={{ presentation: 'modal' }}
+            /> */}
             <Stack.Screen name="order/[id]" />
 
           </Stack>
